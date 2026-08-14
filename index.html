@@ -738,7 +738,87 @@
 
 </div>
 
+<!-- ================= CARD MODAL ================= -->
 
+<div
+    id="cardModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+
+                <small>
+                    NEW FLASHCARD
+                </small>
+
+                <h2>
+                    Add Card
+                </h2>
+
+            </div>
+
+            <button
+                id="closeCardModal"
+                class="close-button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="cardForm">
+
+            <label>
+                Front
+            </label>
+
+            <textarea
+                id="cardFront"
+                placeholder="English word..."
+                required
+            ></textarea>
+
+
+            <label>
+                Back
+            </label>
+
+            <textarea
+                id="cardBack"
+                placeholder="Meaning / translation..."
+                required
+            ></textarea>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelCard"
+                    class="secondary-button"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Add Card
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
 
 <script src="script.js"></script>
 
