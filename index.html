@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Troviruses Flashcards</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="topbar">
+
+        <div>
+
+            <small>
+                TROVIRUSES
+            </small>
+
+            <h1>
+                Flashcards
+            </h1>
+
+        </div>
+
+
+        <button
+            id="profileButton"
+            class="icon-button"
+        >
+            ◉
+        </button>
+
+    </header>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+
+        <!-- HOME -->
+
+        <section
+            id="homePage"
+            class="page active"
+        >
+
+            <div class="welcome">
+
+                <small>
+                    YOUR LEARNING SYSTEM
+                </small>
+
+                <h2>
+                    Keep learning.
+                </h2>
+
+                <p>
+                    Build your knowledge one card at a time.
+                </p>
+
+            </div>
+
+
+            <!-- XP -->
+
+            <div class="xp-card">
+
+                <div class="xp-top">
+
+                    <div>
+
+                        <small>
+                            LEVEL
+                        </small>
+
+                        <strong id="level">
+                            1
+                        </strong>
+
+                    </div>
+
+
+                    <div class="xp-value">
+
+                        <strong id="xp">
+                            0 XP
+                        </strong>
+
+                        <span>
+                            / 100 XP
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="xp-track">
+
+                    <div
+                        id="xpBar"
+                        class="xp-fill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CONTINUE -->
+
+            <section class="home-section">
+
+                <div class="section-head">
+
+                    <div>
+
+                        <small>
+                            CONTINUE
+                        </small>
+
+                        <h2>
+                            Your learning
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="continueButton"
+                    class="continue-card"
+                >
+
+                    <div class="continue-icon">
+                        ↻
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Continue Review
+                        </strong>
+
+                        <span id="continueText">
+                            No cards to review yet
+                        </span>
+
+                    </div>
+
+
+                    <b>
+                        →
+                    </b>
+
+                </button>
+
+            </section>
+
+
+
+            <!-- QUICK STATS -->
+
+            <section class="home-section">
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <small>
+                            DECKS
+                        </small>
+
+                        <strong id="deckStat">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <small>
+                            CARDS
+                        </small>
+
+                        <strong id="cardStat">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <small>
+                            MASTERED
+                        </small>
+
+                        <strong id="masteredStat">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </section>
+
+
+
+        <!-- ================= WORLDS ================= -->
+
+        <section
+            id="worldsPage"
+            class="page"
+        >
+
+            <div class="page-title">
+
+                <small>
+                    YOUR WORLDS
+                </small>
+
+                <h2>
+                    Worlds
+                </h2>
+
+                <p>
+                    Choose what you want to learn.
+                </p>
+
+            </div>
+
+
+            <div class="world-list">
+
+
+                <!-- ENGLISH -->
+
+                <button
+                    class="world-card"
+                    data-world="english"
+                >
+
+                    <div class="world-icon">
+                        文
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            English World
+                        </strong>
+
+                        <span>
+                            Vocabulary · Grammar · English
+                        </span>
+
+                    </div>
+
+
+                    <b>
+                        →
+                    </b>
+
+                </button>
+
+
+
+                <!-- CYBER -->
+
+                <button
+                    class="world-card"
+                    data-world="cyber"
+                >
+
+                    <div class="world-icon cyber">
+                        &lt;/&gt;
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Cyber Security World
+                        </strong>
+
+                        <span>
+                            Security · Linux · Web
+                        </span>
+
+                    </div>
+
+
+                    <b>
+                        →
+                    </b>
+
+                </button>
+
+
+
+                <!-- SPANISH -->
+
+                <button
+                    class="world-card"
+                    data-world="spanish"
+                >
+
+                    <div class="world-icon spanish">
+                        Ñ
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Spanish World
+                        </strong>
+
+                        <span>
+                            Coming soon
+                        </span>
+
+                    </div>
+
+
+                    <b>
+                        →
+                    </b>
+
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= DECKS ================= -->
+
+        <section
+            id="decksPage"
+            class="page"
+        >
+
+            <div class="page-title">
+
+                <small>
+                    COLLECTIONS
+                </small>
+
+                <div class="title-row">
+
+                    <div>
+
+                        <h2>
+                            Decks
+                        </h2>
+
+                        <p>
+                            Your flashcard collections.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        id="createDeckButton"
+                        class="add-button"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="deckList"
+                class="deck-list"
+            ></div>
+
+
+            <div
+                id="emptyDeck"
+                class="empty-state"
+            >
+
+                <strong>
+                    No decks yet
+                </strong>
+
+                <p>
+                    Create your first collection.
+                </p>
+
+
+                <button
+                    id="emptyCreateDeck"
+                    class="primary-button"
+                >
+                    Create Deck
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= PROFILE ================= -->
+
+        <section
+            id="profilePage"
+            class="page"
+        >
+
+            <div class="page-title">
+
+                <small>
+                    PLAYER
+                </small>
+
+                <h2>
+                    Profile
+                </h2>
+
+            </div>
+
+
+            <div class="profile-card">
+
+                <div class="profile-avatar">
+                    01
+                </div>
+
+
+                <div>
+
+                    <strong id="playerName">
+                        Player
+                    </strong>
+
+                    <span>
+                        Level <b id="profileLevel">1</b>
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- ================= BOTTOM NAV ================= -->
+
+    <nav class="bottom-nav">
+
+
+        <button
+            class="nav-item active"
+            data-page="homePage"
+        >
+
+            <span>
+                ⌂
+            </span>
+
+            Home
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-page="worldsPage"
+        >
+
+            <span>
+                ◈
+            </span>
+
+            Worlds
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-page="decksPage"
+        >
+
+            <span>
+                ▣
+            </span>
+
+            Decks
+
+        </button>
+
+
+        <button
+            class="nav-item"
+            data-page="profilePage"
+        >
+
+            <span>
+                ◉
+            </span>
+
+            Profile
+
+        </button>
+
+
+    </nav>
+
+
+</div>
+
+
+
+<!-- ================= DECK MODAL ================= -->
+
+<div
+    id="deckModal"
+    class="modal"
+>
+
+    <div class="modal-box">
+
+
+        <div class="modal-header">
+
+            <div>
+
+                <small>
+                    NEW COLLECTION
+                </small>
+
+                <h2>
+                    Create Deck
+                </h2>
+
+            </div>
+
+
+            <button
+                id="closeDeckModal"
+                class="close-button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <form id="deckForm">
+
+
+            <label>
+                Deck name
+            </label>
+
+            <input
+                id="deckName"
+                type="text"
+                placeholder="e.g. Daily English"
+                required
+            >
+
+
+            <label>
+                Description
+            </label>
+
+            <input
+                id="deckDescription"
+                type="text"
+                placeholder="e.g. Words I use every day"
+            >
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelDeck"
+                    class="secondary-button"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Create Deck
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<script src="script.js"></script>
+
+</body>
+
+  </html>
