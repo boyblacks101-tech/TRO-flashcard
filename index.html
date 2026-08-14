@@ -793,6 +793,136 @@
 
 <script src="script.js"></script>
 
+    <!-- ================= REVIEW MODAL ================= -->
+
+<div id="reviewModal" class="modal">
+
+    <div class="review-box">
+
+        <div class="review-header">
+
+            <div>
+                <small>REVIEW SESSION</small>
+                <h2 id="reviewDeckTitle">Review</h2>
+            </div>
+
+            <button
+                id="closeReview"
+                class="close-button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="review-progress">
+
+            <span id="reviewCounter">
+                1 / 1
+            </span>
+
+            <div class="review-track">
+                <div
+                    id="reviewProgressBar"
+                    class="review-fill"
+                ></div>
+            </div>
+
+        </div>
+
+
+        <!-- FLASHCARD -->
+
+        <button
+            id="reviewCard"
+            class="review-card"
+        >
+
+            <div class="review-card-inner">
+
+                <div class="review-face review-front">
+
+                    <small>FRONT</small>
+
+                    <strong id="reviewFront">
+                        Word
+                    </strong>
+
+                    <span>
+                        Tap to reveal
+                    </span>
+
+                </div>
+
+
+                <div class="review-face review-back">
+
+                    <small>BACK</small>
+
+                    <strong id="reviewBack">
+                        Meaning
+                    </strong>
+
+                    <span>
+                        Tap to return
+                    </span>
+
+                </div>
+
+            </div>
+
+        </button>
+
+
+        <!-- ANSWER BUTTONS -->
+
+        <div
+            id="reviewActions"
+            class="review-actions"
+        >
+
+            <button
+                data-rating="again"
+                class="review-rating again"
+            >
+                <strong>Again</strong>
+                <small>+1 XP</small>
+            </button>
+
+
+            <button
+                data-rating="hard"
+                class="review-rating hard"
+            >
+                <strong>Hard</strong>
+                <small>+3 XP</small>
+            </button>
+
+
+            <button
+                data-rating="good"
+                class="review-rating good"
+            >
+                <strong>Good</strong>
+                <small>+5 XP</small>
+            </button>
+
+
+            <button
+                data-rating="easy"
+                class="review-rating easy"
+            >
+                <strong>Easy</strong>
+                <small>+8 XP</small>
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+    
 </body>
 
   </html>
