@@ -1,5 +1,6 @@
 /* =========================================================
    TROVIRUSES FLASHCARDS
+   Current HTML-compatible version
 ========================================================= */
 
 const STORAGE_KEY = "troviruses_flashcards";
@@ -9,17 +10,52 @@ let data = JSON.parse(
 ) || {
     decks: [],
     xp: 0,
-    level: 1
+    level: 1,
+    language: "english"
 };
 
-let activeDeckId = null;
 
-let reviewCards = [];
-let reviewIndex = 0;
-let reviewFlipped = false;
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const pages = document.querySelectorAll(".page");
+const navItems = document.querySelectorAll(".nav-item");
+
+const profileButton =
+    document.getElementById("profileButton");
+
+const continueButton =
+    document.getElementById("continueButton");
+
+const createDeckButton =
+    document.getElementById("createDeckButton");
+
+const emptyCreateDeck =
+    document.getElementById("emptyCreateDeck");
+
+const deckModal =
+    document.getElementById("deckModal");
+
+const deckForm =
+    document.getElementById("deckForm");
+
+const closeDeckModal =
+    document.getElementById("closeDeckModal");
+
+const cancelDeck =
+    document.getElementById("cancelDeck");
+
+const deckList =
+    document.getElementById("deckList");
+
+const emptyDeck =
+    document.getElementById("emptyDeck");
 
 
-/* ================= SAVE ================= */
+/* =========================================================
+   SAVE
+========================================================= */
 
 function saveData() {
 
@@ -31,98 +67,9 @@ function saveData() {
 }
 
 
-/* ================= ELEMENTS ================= */
-
-const pages =
-    document.querySelectorAll(".page");
-
-const navItems =
-    document.querySelectorAll(".nav-item");
-
-const deckList =
-    document.getElementById("deckList");
-
-const emptyDeck =
-    document.getElementById("emptyDeck");
-
-const deckModal =
-    document.getElementById("deckModal");
-
-const deckForm =
-    document.getElementById("deckForm");
-
-const createDeckButton =
-    document.getElementById("createDeckButton");
-
-const emptyCreateDeck =
-    document.getElementById("emptyCreateDeck");
-
-const closeDeckModal =
-    document.getElementById("closeDeckModal");
-
-const cancelDeck =
-    document.getElementById("cancelDeck");
-
-const deckViewPage =
-    document.getElementById("deckViewPage");
-
-const backToDecks =
-    document.getElementById("backToDecks");
-
-const activeDeckName =
-    document.getElementById("activeDeckName");
-
-const activeDeckDescription =
-    document.getElementById(
-        "activeDeckDescription"
-    );
-
-const activeDeckCardCount =
-    document.getElementById(
-        "activeDeckCardCount"
-    );
-
-const activeDeckMastered =
-    document.getElementById(
-        "activeDeckMastered"
-    );
-
-const cardList =
-    document.getElementById("cardList");
-
-const emptyCardState =
-    document.getElementById(
-        "emptyCardState"
-    );
-
-const cardModal =
-    document.getElementById("cardModal");
-
-const cardForm =
-    document.getElementById("cardForm");
-
-const addCardButton =
-    document.getElementById(
-        "addCardButton"
-    );
-
-const emptyAddCard =
-    document.getElementById(
-        "emptyAddCard"
-    );
-
-const closeCardModal =
-    document.getElementById(
-        "closeCardModal"
-    );
-
-const cancelCard =
-    document.getElementById(
-        "cancelCard"
-    );
-
-
-/* ================= PAGE NAV ================= */
+/* =========================================================
+   PAGE NAVIGATION
+========================================================= */
 
 function showPage(pageId) {
 
@@ -132,14 +79,15 @@ function showPage(pageId) {
 
     });
 
-    const page =
+
+    const target =
         document.getElementById(pageId);
 
-    if (page) {
 
-        page.classList.add("active");
+    if (!target) return;
 
-    }
+
+    target.classList.add("active");
 
 
     navItems.forEach(item => {
@@ -170,9 +118,27 @@ navItems.forEach(item => {
 });
 
 
-/* ================= DECK MODAL ================= */
+/* =========================================================
+   PROFILE
+========================================================= */
+
+profileButton?.addEventListener(
+    "click",
+    () => {
+
+        showPage("profilePage");
+
+    }
+);
+
+
+/* =========================================================
+   DECK MODAL
+========================================================= */
 
 function openDeckModal() {
+
+    if (!deckModal) return;
 
     deckModal.classList.add("active");
 
@@ -185,11 +151,11 @@ function openDeckModal() {
 
 function closeDeckModalWindow() {
 
-    deckModal.classList.remove(
-        "active"
-    );
+    if (!deckModal) return;
 
-    deckForm.reset();
+    deckModal.classList.remove("active");
+
+    deckForm?.reset();
 
 }
 
@@ -199,15 +165,18 @@ createDeckButton?.addEventListener(
     openDeckModal
 );
 
+
 emptyCreateDeck?.addEventListener(
     "click",
     openDeckModal
 );
 
+
 closeDeckModal?.addEventListener(
     "click",
     closeDeckModalWindow
 );
+
 
 cancelDeck?.addEventListener(
     "click",
@@ -215,7 +184,9 @@ cancelDeck?.addEventListener(
 );
 
 
-/* ================= CREATE DECK ================= */
+/* =========================================================
+   CREATE DECK
+========================================================= */
 
 deckForm?.addEventListener(
     "submit",
@@ -223,18 +194,20 @@ deckForm?.addEventListener(
 
         event.preventDefault();
 
+
         const name =
             document
                 .getElementById("deckName")
-                .value
+                ?.value
                 .trim();
+
 
         const description =
             document
                 .getElementById(
                     "deckDescription"
                 )
-                .value
+                ?.value
                 .trim();
 
 
@@ -248,10 +221,12 @@ deckForm?.addEventListener(
 
             name,
 
-            description,
+            description:
+                description ||
+                "Language collection",
 
             language:
-                "english",
+                data.language || "english",
 
             cards: [],
 
@@ -262,6 +237,7 @@ deckForm?.addEventListener(
 
 
         data.decks.push(deck);
+
 
         saveData();
 
@@ -275,43 +251,66 @@ deckForm?.addEventListener(
 );
 
 
-/* ================= RENDER DECKS ================= */
+/* =========================================================
+   RENDER DECKS
+========================================================= */
 
 function renderDecks() {
 
     if (!deckList) return;
 
+
     deckList.innerHTML = "";
 
 
+    const language =
+        data.language || "english";
+
+
+    const visibleDecks =
+        data.decks.filter(
+            deck =>
+                deck.language === language
+        );
+
+
     if (
-        data.decks.length === 0
+        visibleDecks.length === 0
     ) {
 
-        emptyDeck.style.display =
-            "block";
+        if (emptyDeck) {
+
+            emptyDeck.style.display =
+                "block";
+
+        }
 
         return;
 
     }
 
 
-    emptyDeck.style.display =
-        "none";
+    if (emptyDeck) {
+
+        emptyDeck.style.display =
+            "none";
+
+    }
 
 
-    data.decks.forEach(deck => {
+    visibleDecks.forEach(deck => {
 
-        const card =
-            document.createElement(
-                "button"
-            );
+        const element =
+            document.createElement("button");
 
-        card.className =
+
+        element.type = "button";
+
+        element.className =
             "deck-card";
 
 
-        card.innerHTML = `
+        element.innerHTML = `
 
             <div class="deck-icon">
                 ▣
@@ -320,15 +319,12 @@ function renderDecks() {
             <div class="deck-content">
 
                 <strong>
-                    ${escapeHTML(
-                        deck.name
-                    )}
+                    ${escapeHTML(deck.name)}
                 </strong>
 
                 <span>
                     ${escapeHTML(
-                        deck.description ||
-                        "Language collection"
+                        deck.description
                     )}
                 </span>
 
@@ -353,560 +349,100 @@ function renderDecks() {
         `;
 
 
-        card.addEventListener(
+        element.addEventListener(
             "click",
             () => {
 
-                openDeck(deck.id);
+                openDeck(deck);
 
             }
         );
 
 
-        deckList.appendChild(card);
+        deckList.appendChild(element);
 
     });
-
-}
-
-
-/* ================= OPEN DECK ================= */
-
-function openDeck(deckId) {
-
-    const deck =
-        data.decks.find(
-            item =>
-                item.id === deckId
-        );
-
-
-    if (!deck) return;
-
-
-    activeDeckId =
-        deckId;
-
-
-    activeDeckName.textContent =
-        deck.name;
-
-    activeDeckDescription.textContent =
-        deck.description ||
-        "Your flashcards.";
-
-
-    renderCards();
-
-    showPage(
-        "deckViewPage"
-    );
-
-}
-
-
-/* ================= BACK ================= */
-
-backToDecks?.addEventListener(
-    "click",
-    () => {
-
-        activeDeckId = null;
-
-        showPage(
-            "decksPage"
-        );
-
-        renderDecks();
-
-    }
-);
-
-
-/* ================= CARD MODAL ================= */
-
-function openCardModal() {
-
-    if (!activeDeckId) return;
-
-    cardModal.classList.add(
-        "active"
-    );
-
-    document
-        .getElementById("cardFront")
-        ?.focus();
-
-}
-
-
-function closeCardModalWindow() {
-
-    cardModal.classList.remove(
-        "active"
-    );
-
-    cardForm.reset();
-
-}
-
-
-addCardButton?.addEventListener(
-    "click",
-    openCardModal
-);
-
-emptyAddCard?.addEventListener(
-    "click",
-    openCardModal
-);
-
-closeCardModal?.addEventListener(
-    "click",
-    closeCardModalWindow
-);
-
-cancelCard?.addEventListener(
-    "click",
-    closeCardModalWindow
-);
-
-
-/* ================= CREATE CARD ================= */
-
-cardForm?.addEventListener(
-    "submit",
-    event => {
-
-        event.preventDefault();
-
-
-        const deck =
-            data.decks.find(
-                item =>
-                    item.id === activeDeckId
-            );
-
-
-        if (!deck) return;
-
-
-        const front =
-            document
-                .getElementById(
-                    "cardFront"
-                )
-                .value
-                .trim();
-
-
-        const back =
-            document
-                .getElementById(
-                    "cardBack"
-                )
-                .value
-                .trim();
-
-
-        if (!front || !back)
-            return;
-
-
-        const card = {
-
-            id:
-                Date.now().toString(),
-
-            front,
-
-            back,
-
-            mastered:
-                false,
-
-            reviews:
-                0,
-
-            rating:
-                null,
-
-            createdAt:
-                new Date().toISOString()
-
-        };
-
-
-        deck.cards.push(card);
-
-        saveData();
-
-        closeCardModalWindow();
-
-        renderCards();
-
-        renderDecks();
-
-        updateHomeStats();
-
-    }
-);
-
-
-/* ================= RENDER CARDS ================= */
-
-function renderCards() {
-
-    const deck =
-        data.decks.find(
-            item =>
-                item.id === activeDeckId
-        );
-
-
-    if (!deck) return;
-
-
-    cardList.innerHTML = "";
-
-
-    activeDeckCardCount.textContent =
-        deck.cards.length;
-
-
-    activeDeckMastered.textContent =
-        deck.cards.filter(
-            card =>
-                card.mastered
-        ).length;
-
-
-    if (
-        deck.cards.length === 0
-    ) {
-
-        emptyCardState.style.display =
-            "block";
-
-        return;
-
-    }
-
-
-    emptyCardState.style.display =
-        "none";
-
-
-    deck.cards.forEach(card => {
-
-        const element =
-            document.createElement(
-                "div"
-            );
-
-        element.className =
-            "flashcard-item";
-
-
-        element.innerHTML = `
-
-            <div class="flashcard-front">
-
-                <small>
-                    FRONT
-                </small>
-
-                <strong>
-                    ${escapeHTML(
-                        card.front
-                    )}
-                </strong>
-
-            </div>
-
-            <div class="flashcard-back">
-
-                <small>
-                    BACK
-                </small>
-
-                <span>
-                    ${escapeHTML(
-                        card.back
-                    )}
-                </span>
-
-            </div>
-
-            <button
-                class="delete-card"
-                data-card-id="${card.id}"
-            >
-                ×
-            </button>
-
-        `;
-
-
-        element
-            .querySelector(
-                ".delete-card"
-            )
-            .addEventListener(
-                "click",
-                event => {
-
-                    event.stopPropagation();
-
-                    deleteCard(
-                        card.id
-                    );
-
-                }
-            );
-
-
-        cardList.appendChild(
-            element
-        );
-
-    });
-
-}
-
-
-/* ================= DELETE CARD ================= */
-
-function deleteCard(cardId) {
-
-    const deck =
-        data.decks.find(
-            item =>
-                item.id === activeDeckId
-        );
-
-
-    if (!deck) return;
-
-
-    deck.cards =
-        deck.cards.filter(
-            card =>
-                card.id !== cardId
-        );
-
-
-    saveData();
-
-    renderCards();
-
-    renderDecks();
-
-    updateHomeStats();
 
 }
 
 
 /* =========================================================
-   REVIEW SYSTEM
+   OPEN DECK
 ========================================================= */
 
+function openDeck(deck) {
 
-/* ================= REVIEW ELEMENTS ================= */
+    if (!deck) return;
 
-const reviewModal =
-    document.getElementById(
-        "reviewModal"
+
+    alert(
+        `${deck.name}\n\nCards: ${deck.cards.length}\n\nDeck system is ready for the next step.`
     );
-
-const reviewDeckTitle =
-    document.getElementById(
-        "reviewDeckTitle"
-    );
-
-const reviewCounter =
-    document.getElementById(
-        "reviewCounter"
-    );
-
-const reviewProgressBar =
-    document.getElementById(
-        "reviewProgressBar"
-    );
-
-const reviewCard =
-    document.getElementById(
-        "reviewCard"
-    );
-
-const reviewFront =
-    document.getElementById(
-        "reviewFront"
-    );
-
-const reviewBack =
-    document.getElementById(
-        "reviewBack"
-    );
-
-const reviewActions =
-    document.getElementById(
-        "reviewActions"
-    );
-
-const closeReview =
-    document.getElementById(
-        "closeReview"
-    );
-
-
-/* ================= START REVIEW ================= */
-
-function startReview(deckId) {
-
-    const deck =
-        data.decks.find(
-            item =>
-                item.id === deckId
-        );
-
-
-    if (
-        !deck ||
-        deck.cards.length === 0
-    ) {
-
-        alert(
-            "This deck has no cards yet."
-        );
-
-        return;
-
-    }
-
-
-    activeDeckId =
-        deckId;
-
-
-    reviewCards =
-        [...deck.cards];
-
-
-    reviewIndex = 0;
-
-    reviewFlipped = false;
-
-
-    reviewDeckTitle.textContent =
-        deck.name;
-
-
-    reviewModal.classList.add(
-        "active"
-    );
-
-
-    showReviewCard();
 
 }
 
 
-/* ================= SHOW CARD ================= */
+/* =========================================================
+   WORLDS
+========================================================= */
 
-function showReviewCard() {
+document
+    .querySelectorAll(".world-card")
+    .forEach(card => {
 
-    if (
-        !reviewCards.length
-    ) return;
-
-
-    const card =
-        reviewCards[
-            reviewIndex
-        ];
-
-
-    reviewFlipped = false;
-
-
-    reviewCard.classList.remove(
-        "flipped"
-    );
-
-
-    reviewFront.textContent =
-        card.front;
-
-
-    reviewBack.textContent =
-        card.back;
-
-
-    reviewCounter.textContent =
-        `${reviewIndex + 1} / ${reviewCards.length}`;
-
-
-    const progress =
-        (
-            reviewIndex /
-            reviewCards.length
-        ) * 100;
-
-
-    reviewProgressBar.style.width =
-        `${progress}%`;
-
-}
-
-
-/* ================= FLIP ================= */
-
-reviewCard?.addEventListener(
-    "click",
-    () => {
-
-        reviewFlipped =
-            !reviewFlipped;
-
-
-        reviewCard.classList.toggle(
-            "flipped",
-            reviewFlipped
-        );
-
-    }
-);
-
-
-/* ================= RATING ================= */
-
-reviewActions
-    ?.querySelectorAll(
-        ".review-rating"
-    )
-    .forEach(button => {
-
-        button.addEventListener(
+        card.addEventListener(
             "click",
             () => {
 
+                const world =
+                    card.dataset.world;
+
+
                 if (
-                    !reviewFlipped
+                    world === "english"
                 ) {
+
+                    data.language =
+                        "english";
+
+                    saveData();
+
+                    renderDecks();
+
+                    showPage("decksPage");
 
                     return;
 
                 }
 
 
-                const rating =
-                    button.dataset.rating;
+                if (
+                    world === "spanish"
+                ) {
+
+                    data.language =
+                        "spanish";
+
+                    saveData();
+
+                    renderDecks();
+
+                    showPage("decksPage");
+
+                    return;
+
+                }
 
 
-                rateCard(
-                    rating
-                );
+                if (
+                    world === "cyber"
+                ) {
+
+                    alert(
+                        "Cyber Security does not belong to the flashcard app."
+                    );
+
+                }
 
             }
         );
@@ -914,216 +450,42 @@ reviewActions
     });
 
 
-/* ================= RATE CARD ================= */
+/* =========================================================
+   CONTINUE REVIEW
+========================================================= */
 
-function rateCard(rating) {
-
-    const deck =
-        data.decks.find(
-            item =>
-                item.id === activeDeckId
-        );
-
-
-    if (!deck) return;
-
-
-    const card =
-        deck.cards[
-            reviewCards[
-                reviewIndex
-            ]
-                ? deck.cards.find(
-                    item =>
-                        item.id ===
-                        reviewCards[
-                            reviewIndex
-                        ].id
-                )
-                : 0
-        ];
-
-
-    if (!card) return;
-
-
-    const xpRewards = {
-
-        again: 1,
-
-        hard: 3,
-
-        good: 5,
-
-        easy: 8
-
-    };
-
-
-    card.reviews += 1;
-
-    card.rating =
-        rating;
-
-
-    if (
-        rating === "good" ||
-        rating === "easy"
-    ) {
-
-        card.mastered =
-            true;
-
-    }
-
-
-    data.xp +=
-        xpRewards[rating];
-
-
-    updateLevel();
-
-    saveData();
-
-    updateXPUI();
-
-    updateHomeStats();
-
-
-    nextReviewCard();
-
-}
-
-
-/* ================= NEXT CARD ================= */
-
-function nextReviewCard() {
-
-    reviewIndex++;
-
-
-    if (
-        reviewIndex >=
-        reviewCards.length
-    ) {
-
-        finishReview();
-
-        return;
-
-    }
-
-
-    showReviewCard();
-
-}
-
-
-/* ================= FINISH ================= */
-
-function finishReview() {
-
-    reviewProgressBar.style.width =
-        "100%";
-
-
-    setTimeout(
-        () => {
-
-            reviewModal.classList.remove(
-                "active"
-            );
-
-
-            alert(
-                "Review complete! XP earned."
-            );
-
-
-            if (activeDeckId) {
-
-                renderCards();
-
-            }
-
-        },
-        250
-    );
-
-}
-
-
-/* ================= CLOSE REVIEW ================= */
-
-closeReview?.addEventListener(
+continueButton?.addEventListener(
     "click",
     () => {
 
-        reviewModal.classList.remove(
-            "active"
+        const deck =
+            data.decks.find(
+                deck =>
+                    deck.cards &&
+                    deck.cards.length > 0
+            );
+
+
+        if (!deck) {
+
+            showPage("decksPage");
+
+            return;
+
+        }
+
+
+        alert(
+            `Continue Review\n\n${deck.name}\n${deck.cards.length} cards`
         );
 
     }
 );
 
 
-/* ================= REVIEW BUTTONS ================= */
-
-document
-    .getElementById(
-        "continueButton"
-    )
-    ?.addEventListener(
-        "click",
-        () => {
-
-            const deck =
-                data.decks.find(
-                    deck =>
-                        deck.cards.length > 0
-                );
-
-
-            if (!deck) {
-
-                showPage(
-                    "decksPage"
-                );
-
-                return;
-
-            }
-
-
-            startReview(
-                deck.id
-            );
-
-        }
-    );
-
-
-document
-    .getElementById(
-        "reviewDeckButton"
-    )
-    ?.addEventListener(
-        "click",
-        () => {
-
-            if (!activeDeckId)
-                return;
-
-
-            startReview(
-                activeDeckId
-            );
-
-        }
-    );
-
-
-/* ================= LEVEL ================= */
+/* =========================================================
+   XP
+========================================================= */
 
 function updateLevel() {
 
@@ -1138,48 +500,49 @@ function updateLevel() {
 function updateXPUI() {
 
     const level =
-        document.getElementById(
-            "level"
-        );
+        document.getElementById("level");
 
     const xp =
-        document.getElementById(
-            "xp"
-        );
+        document.getElementById("xp");
 
     const xpBar =
+        document.getElementById("xpBar");
+
+    const profileLevel =
         document.getElementById(
-            "xpBar"
+            "profileLevel"
         );
 
 
-    if (
-        !level ||
-        !xp ||
-        !xpBar
-    ) return;
+    updateLevel();
 
 
     const currentXP =
         data.xp % 100;
 
 
-    level.textContent =
-        data.level;
+    if (level) {
+
+        level.textContent =
+            data.level;
+
+    }
 
 
-    xp.textContent =
-        `${currentXP} XP`;
+    if (xp) {
+
+        xp.textContent =
+            `${currentXP} XP`;
+
+    }
 
 
-    xpBar.style.width =
-        `${currentXP}%`;
+    if (xpBar) {
 
+        xpBar.style.width =
+            `${currentXP}%`;
 
-    const profileLevel =
-        document.getElementById(
-            "profileLevel"
-        );
+    }
 
 
     if (profileLevel) {
@@ -1192,7 +555,9 @@ function updateXPUI() {
 }
 
 
-/* ================= HOME STATS ================= */
+/* =========================================================
+   HOME STATS
+========================================================= */
 
 function updateHomeStats() {
 
@@ -1214,10 +579,7 @@ function updateHomeStats() {
 
     const totalCards =
         data.decks.reduce(
-            (
-                total,
-                deck
-            ) =>
+            (total, deck) =>
                 total +
                 deck.cards.length,
             0
@@ -1226,10 +588,7 @@ function updateHomeStats() {
 
     const masteredCards =
         data.decks.reduce(
-            (
-                total,
-                deck
-            ) =>
+            (total, deck) =>
                 total +
                 deck.cards.filter(
                     card =>
@@ -1239,87 +598,74 @@ function updateHomeStats() {
         );
 
 
-    if (deckStat)
+    if (deckStat) {
+
         deckStat.textContent =
             data.decks.length;
 
+    }
 
-    if (cardStat)
+
+    if (cardStat) {
+
         cardStat.textContent =
             totalCards;
 
+    }
 
-    if (masteredStat)
+
+    if (masteredStat) {
+
         masteredStat.textContent =
             masteredCards;
+
+    }
 
 }
 
 
-/* ================= WORLDS ================= */
+/* =========================================================
+   CONTINUE TEXT
+========================================================= */
 
-document
-    .querySelectorAll(
-        ".world-card"
-    )
-    .forEach(card => {
+function updateContinueText() {
 
-        card.addEventListener(
-            "click",
-            () => {
-
-                const world =
-                    card.dataset.world;
-
-
-                if (
-                    world ===
-                    "english"
-                ) {
-
-                    alert(
-                        "English World connected."
-                    );
-
-                }
-
-
-                if (
-                    world ===
-                    "spanish"
-                ) {
-
-                    alert(
-                        "Spanish World coming soon."
-                    );
-
-                }
-
-            }
+    const continueText =
+        document.getElementById(
+            "continueText"
         );
 
-    });
+
+    if (!continueText) return;
 
 
-/* ================= PROFILE ================= */
-
-document
-    .getElementById(
-        "profileButton"
-    )
-    ?.addEventListener(
-        "click",
-        () => {
-
-            showPage(
-                "profilePage"
-            );
-
-        }
-    );
+    const cards =
+        data.decks.reduce(
+            (total, deck) =>
+                total +
+                deck.cards.length,
+            0
+        );
 
 
-/* ================= ESCAPE HTML ================= */
+    if (cards === 0) {
+
+        continueText.textContent =
+            "No cards to review yet";
+
+    } else {
+
+        continueText.textContent =
+            `${cards} cards ready to review`;
+
+    }
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
 function escapeHTML(value) {
 
@@ -1332,4 +678,60 @@ function escapeHTML(value) {
 
         .replaceAll(
             "<",
-         
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+/* =========================================================
+   MODAL OUTSIDE CLICK
+========================================================= */
+
+deckModal?.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target ===
+            deckModal
+        ) {
+
+            closeDeckModalWindow();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+updateLevel();
+
+updateXPUI();
+
+updateHomeStats();
+
+updateContinueText();
+
+renderDecks();
+
+showPage("homePage");
